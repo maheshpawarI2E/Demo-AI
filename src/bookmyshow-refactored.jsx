@@ -5,16 +5,11 @@ import { ShowtimeSelectionPage } from "./components/ShowtimeSelectionPage.jsx";
 import { SeatSelectionPage } from "./components/SeatSelectionPage.jsx";
 import { ConfirmationPage } from "./components/ConfirmationPage.jsx";
 import { CityPickerModal } from "./components/CityPickerModal.jsx";
-import { LoginModal } from "./components/LoginModal.jsx";
-import { SignupPage } from "./components/SignupPage.jsx";
 import { generateSeats } from "./utils/bookmyshow.utils.js";
 
 const takenSeats = generateSeats();
 
 export default function BookMyShow() {
-  const [isDarkMode, setIsDarkMode] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userName, setUserName] = useState("");
   const [page, setPage] = useState("home");
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [selectedCity, setSelectedCity] = useState("Mumbai");
@@ -26,57 +21,10 @@ export default function BookMyShow() {
   const [bookingDone, setBookingDone] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterGenre, setFilterGenre] = useState("All");
-  const [showLoginModal, setShowLoginModal] = useState(false);
 
   function handleBook() {
-    if (!isAuthenticated) {
-      setShowLoginModal(true);
-      return;
-    }
     setBookingDone(true);
     setPage("confirmation");
-  }
-
-  function handleLogout() {
-    setIsAuthenticated(false);
-    setUserName("");
-    setPage("home");
-    setSelectedMovie(null);
-    setSelectedSeats([]);
-    setSelectedCinema(null);
-    setSelectedTime(null);
-    setBookingDone(false);
-  }
-
-  function toggleTheme() {
-    setIsDarkMode(prev => !prev);
-  }
-
-  // Show Login Modal if trying to pay without authentication
-  if (showLoginModal) {
-    return (
-      <LoginModal
-        setShowLoginModal={setShowLoginModal}
-        setIsAuthenticated={setIsAuthenticated}
-        setUserName={setUserName}
-        setPage={setPage}
-        isDarkMode={isDarkMode}
-        onThemeToggle={toggleTheme}
-      />
-    );
-  }
-
-  // Show signup page
-  if (page === "signup") {
-    return (
-      <SignupPage
-        setPage={setPage}
-        setIsAuthenticated={setIsAuthenticated}
-        setUserName={setUserName}
-        isDarkMode={isDarkMode}
-        onThemeToggle={toggleTheme}
-      />
-    );
   }
 
   // City Picker Modal
@@ -86,8 +34,6 @@ export default function BookMyShow() {
         selectedCity={selectedCity}
         setSelectedCity={setSelectedCity}
         setShowCityPicker={setShowCityPicker}
-        isDarkMode={isDarkMode}
-        onThemeToggle={toggleTheme}
       />
     );
   }
@@ -102,6 +48,7 @@ export default function BookMyShow() {
         selectedCinema={selectedCinema}
         selectedSeats={selectedSeats}
         totalPrice={selectedSeats.reduce((sum, s) => {
+          // Calculate total price here
           const row = s[0];
           const seats = {
             Premium: { price: 0, rows: ["A", "B"], cols: 10 },
@@ -119,8 +66,6 @@ export default function BookMyShow() {
         setSelectedCinema={setSelectedCinema}
         setSelectedTime={setSelectedTime}
         setBookingDone={setBookingDone}
-        isDarkMode={isDarkMode}
-        onThemeToggle={toggleTheme}
       />
     );
   }
@@ -138,8 +83,6 @@ export default function BookMyShow() {
         takenSeats={takenSeats}
         setPage={setPage}
         handleBook={handleBook}
-        isDarkMode={isDarkMode}
-        onThemeToggle={toggleTheme}
       />
     );
   }
@@ -156,8 +99,6 @@ export default function BookMyShow() {
         selectedTime={selectedTime}
         setSelectedTime={setSelectedTime}
         setPage={setPage}
-        isDarkMode={isDarkMode}
-        onThemeToggle={toggleTheme}
       />
     );
   }
@@ -168,8 +109,6 @@ export default function BookMyShow() {
       <MovieDetailPage
         selectedMovie={selectedMovie}
         setPage={setPage}
-        isDarkMode={isDarkMode}
-        onThemeToggle={toggleTheme}
       />
     );
   }
@@ -185,12 +124,6 @@ export default function BookMyShow() {
       setFilterGenre={setFilterGenre}
       setSelectedMovie={setSelectedMovie}
       setPage={setPage}
-      isAuthenticated={isAuthenticated}
-      userName={userName}
-      setShowLoginModal={setShowLoginModal}
-      handleLogout={handleLogout}
-      isDarkMode={isDarkMode}
-      onThemeToggle={toggleTheme}
     />
   );
 }
