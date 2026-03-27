@@ -1,102 +1,56 @@
-# CI/CD Deployment Guide
+# Netlify Deployment Guide
 
 ## Setup Instructions
 
-This project is configured for automatic deployment to GitHub Pages using GitHub Actions.
+This project is configured for deployment to Netlify.
 
 ### 🔧 Prerequisites
 
-1. Your code must be pushed to GitHub
-2. Repository should be accessible at: `https://github.com/maheshpawarI2E/Demo-AI`
+1. A Netlify account (https://netlify.com)
+2. Your code pushed to GitHub repository
+3. Netlify CLI installed (optional, for local deployment)
 
-### 📋 Configuration Complete
+### 📋 Configuration
 
-The following have been configured:
+✅ **netlify.toml** 
+- Build command: `npm run build`
+- Publish directory: `build`
+- Redirects configured for React Router support
 
 ✅ **package.json** 
-- Added `homepage`: `https://maheshpawarI2E.github.io/Demo-AI`
-- Added deployment scripts
+- Updated with Netlify-compatible scripts
+- Removed GitHub Pages configuration
 
-✅ **GitHub Actions Workflows**
-- `.github/workflows/deploy.yml` - Builds and deploys to GitHub Pages on push to `main`
-- `.github/workflows/ci.yml` - Runs tests and validation
+### 🚀 Deployment Steps
 
-### 🚀 First Time Setup
+#### Option 1: Deploy via Netlify Web UI (Recommended)
+1. Go to https://app.netlify.com
+2. Click "New site from Git"
+3. Choose your GitHub repository
+4. Select branch: `dev`
+5. Build command: `npm run build`
+6. Publish directory: `build`
+7. Click "Deploy site"
+8. Wait for build to complete (2-5 minutes)
+9. Your site will be available at the generated Netlify URL
 
-1. **Push your code to GitHub**
-   ```bash
-   git remote add origin https://github.com/maheshpawarI2E/Demo-AI.git
-   git branch -M main
-   git push -u origin main
-   ```
+#### Option 2: Deploy via Netlify CLI
+1. Install Netlify CLI: `npm install -g netlify-cli`
+2. Run: `netlify deploy --prod`
+3. Follow the prompts to authenticate and deploy
 
-2. **Enable GitHub Pages**
-   - Go to: `https://github.com/maheshpawarI2E/Demo-AI/settings/pages`
-   - Under "Build and deployment"
-   - Select: **Deploy from a branch**
-   - Branch: Select `gh-pages` and `/ (root)`
-   - Click Save
+### 📊 Build Details
 
-3. **Wait for Deployment**
-   - GitHub Actions will automatically trigger on push
-   - Monitor progress: `https://github.com/maheshpawarI2E/Demo-AI/actions`
-   - Once complete, your app will be live at: `https://maheshpawarI2E.github.io/Demo-AI`
+- **Build Command**: `npm run build`
+- **Publish Directory**: `build`
+- **Node Version**: Recommended 18+
+- **Environment Variables**: Configure in Netlify Dashboard if needed
 
-### 📊 Workflow Details
+### ✅ Verify Deployment
 
-#### Deploy Workflow (deploy.yml)
-- **Triggers**: Push to `main` branch or pull requests
-- **Steps**:
-  1. Checks out code
-  2. Sets up Node.js v18
-  3. Installs dependencies
-  4. Runs tests
-  5. Builds the application
-  6. Deploys to GitHub Pages
-
-#### CI Workflow (ci.yml)
-- **Triggers**: Push to `main` or `develop`, pull requests
-- **Steps**:
-  1. Validates build
-  2. Runs tests
-  3. Checks for errors
-
-### 🔄 Automatic Deployment
-
-After initial setup, every push to `main` will:
-1. ✅ Run all tests
-2. ✅ Build the application
-3. ✅ Deploy to GitHub Pages automatically
-
-### 🌐 Access Your App
-
-- **Production URL**: `https://maheshpawarI2E.github.io/Demo-AI`
-- **GitHub Repository**: `https://github.com/maheshpawarI2E/Demo-AI`
-
-### ✅ Verification
-
-To verify the deployment:
-1. Go to the Actions tab in your GitHub repository
-2. Check the "Build and Deploy to GitHub Pages" workflow
-3. Confirm it shows a green checkmark ✅
-4. Visit your live URL to see the deployed app
-
-### 🐛 Troubleshooting
-
-**Deployment fails?**
-- Check GitHub Actions logs for errors
-- Ensure `main` branch exists and has your latest code
-- Verify GitHub Pages settings point to `gh-pages` branch
-
-**App displays 404?**
-- Wait a few minutes for GitHub Pages to update
-- Clear browser cache and refresh
-- Verify `homepage` in package.json is correct
-
-**Need to update?**
-- Simply push changes to `main` branch
-- GitHub Actions will automatically rebuild and redeploy
-
----
+Once deployed:
+1. Check the deployment logs in Netlify Dashboard
+2. Visit your Netlify URL
+3. Test all functionality to ensure everything works
 
 **Deployed automatically on**: March 16, 2026
